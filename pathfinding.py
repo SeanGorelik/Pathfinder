@@ -114,7 +114,7 @@ def bfs():
         pygame.display.update()
         pygame.time.delay(20)
 
-def djikstra():
+def dijkstra():
     endGoalX = len(cells[0])-1
     endGoalY = len(cells)
     heap = [(0, 0, 0, [])]
@@ -168,5 +168,5 @@ while True:
             elif event.key==pygame.K_b:
                 bfs()
             elif event.key==pygame.K_j:
-                djikstra()
+                dijkstra()
     pygame.display.update()
