@@ -152,7 +152,7 @@ while True:
             sys.exit()
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_d:
-                dfs(START_X//RECT_SIZE, START_Y//RECT_SIZE, set())
+                dfs(START_X, START_Y, set())
             elif event.key==pygame.K_b:
                 bfs()
             elif event.key==pygame.K_j:
