@@ -1,4 +1,4 @@
-# Pathfinding Algorithm Visualization
+# Pathfinder
 ## How to use
 - Hold the left click button on the mouse to draw the walls/obstacles
 - Press `d` to visualize the Depth-First Search (DFS) algorithm
