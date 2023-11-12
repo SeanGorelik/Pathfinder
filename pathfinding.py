@@ -91,7 +91,7 @@ def bfs():
         if i == len(cells)-1 and j == len(cells[i])-1:
             sys.exit()
             return
-        if i >= len(cells) or j >= len(cells[i]) or isWall[i][j]:
+        if i < 0 or j < 0 or i >= len(cells) or j >= len(cells[i]) or isWall[i][j]:
             continue
         posY = i*RECT_SIZE
         posX = j*RECT_SIZE
@@ -104,6 +104,12 @@ def bfs():
         if (i, j+1) not in seen:
             dq.append((i, j+1))
             seen.add((i, j+1))
+        if (i-1, j) not in seen:
+            dq.append((i-1, j))
+            seen.add((i-1, j))
+        if (i, j-1) not in seen:
+            dq.append((i, j-1))
+            seen.add((i, j-1))
 
         pygame.display.update()
         pygame.time.delay(20)
@@ -131,6 +137,12 @@ def djikstra():
         if (i, j+1) not in seen and j+1 < len(cells[i]):
             heapq.heappush(heap, (cost+1, i, j+1, path.copy()))
             seen.add((i, j+1))
+        if (i-1, j) not in seen and i-1 >= 0:
+            heapq.heappush(heap, (cost+1, i-1, j, path.copy()))
+            seen.add((i-1, j))
+        if (i, j-1) not in seen and j-1 >= 0:
+            heapq.heappush(heap, (cost+1, i, j-1, path.copy()))
+            seen.add((i, j-1))
 
     for i,j in finalPath:        
         posY = i*RECT_SIZE
