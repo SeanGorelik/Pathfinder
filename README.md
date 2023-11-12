@@ -1,2 +1,2 @@
 # Pathfinder
-Visualizing various pathfinding algorithms
+Pathfinding Algorithm Visualization
