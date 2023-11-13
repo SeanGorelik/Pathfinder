@@ -1,9 +1,12 @@
 import pygame, sys
 from pygame.locals import *
 from collections import deque
+from tkinter import *
+from tkinter import messagebox
 import heapq
 
 pygame.init()
+Tk().wm_withdraw()
 
 WINDOW_SIZE = 600
 
@@ -64,17 +67,19 @@ def drawCells():
 def dfs(i, j, vis):
     if i < 0 or j < 0 or i >= len(cells) or j >= len(cells[i]) or isWall[i][j]:
         return
+    
+    posY = i*RECT_SIZE
+    posX = j*RECT_SIZE
+    cells[i][j] = pygame.Rect(posX, posY, RECT_SIZE, RECT_SIZE)
+    pygame.draw.rect(surface, greenColor, cells[i][j])
+
     if i == len(cells)-1 and j == len(cells[i])-1:
+        messagebox.showinfo('Continue','Done!')
         sys.exit()
         return
     
     pygame.display.update()
     pygame.time.delay(20)
-
-    posY = i*RECT_SIZE
-    posX = j*RECT_SIZE
-    cells[i][j] = pygame.Rect(posX, posY, RECT_SIZE, RECT_SIZE)
-    pygame.draw.rect(surface, greenColor, cells[i][j])
 
     if (i,j) not in vis:
         vis.add((i, j))
@@ -88,15 +93,19 @@ def bfs():
     seen = set()
     while dq:
         i, j = dq.popleft()
-        if i == len(cells)-1 and j == len(cells[i])-1:
-            sys.exit()
-            return
+        
         if i < 0 or j < 0 or i >= len(cells) or j >= len(cells[i]) or isWall[i][j]:
             continue
+        
         posY = i*RECT_SIZE
         posX = j*RECT_SIZE
         cells[i][j] = pygame.Rect(posX, posY, RECT_SIZE, RECT_SIZE)
         pygame.draw.rect(surface, greenColor, cells[i][j])
+        
+        if i == len(cells)-1 and j == len(cells[i])-1:
+            messagebox.showinfo('Continue','Done!')
+            sys.exit()
+            return
         
         if (i+1, j) not in seen:
             dq.append((i+1, j))
@@ -114,7 +123,7 @@ def bfs():
         pygame.display.update()
         pygame.time.delay(20)
 
-def dijkstra():
+def djikstra():
     endGoalX = len(cells[0])-1
     endGoalY = len(cells)
     heap = [(0, 0, 0, [])]
@@ -124,11 +133,13 @@ def dijkstra():
 
     while heap:
         cost, i, j, path = heapq.heappop(heap)
+        
+        if i >= len(cells) or j >= len(cells[i]) or isWall[i][j]:
+            continue
+
         if i == len(cells) - 1 and j == len(cells[i]) - 1:
             finalPath = path[:]
             break
-        if i >= len(cells) or j >= len(cells[i]) or isWall[i][j]:
-            continue
         
         path.append((i,j))
         if (i+1, j) not in seen and i+1 < len(cells):
@@ -153,6 +164,7 @@ def dijkstra():
         pygame.display.update()
         pygame.time.delay(20)
 
+    messagebox.showinfo('Continue','Done!')
     sys.exit()
 
 initCells()
@@ -168,5 +180,5 @@ while True:
             elif event.key==pygame.K_b:
                 bfs()
             elif event.key==pygame.K_j:
-                dijkstra()
+                djikstra()
     pygame.display.update()
